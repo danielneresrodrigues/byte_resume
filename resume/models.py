@@ -5,43 +5,51 @@ class Curriculo(models.Model):
 
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
     nome = models.CharField(max_length = 100)
-    funcao = models.CharField(max_length = 100)
+    objetivo = models.TextField()
 
     def __str__(self):
         return f'{self.nome} | {self.user}'
 
-class Ensino(models.Model):
+class FormacaoAcademica(models.Model):
 
     curriculo = models.ForeignKey(Curriculo, on_delete = models.CASCADE)
-    nome = models.CharField(max_length = 100)
+    curso = models.CharField(max_length = 100)
     instituicao = models.CharField(max_length = 100)
-    destaque = models.TextField()
+    cidade = models.CharField(max_length = 100)
     inicio = models.DateField()
-    termino = models.DateField()
+    termino = models.DateField(blank = True, null = True)
+    presente = models.BooleanField()
 
     def __str__(self):
-        return f'{self.nome} | {self.curriculo}'
+        return f'{self.curso} | {self.curriculo}'
 
-class Emprego(models.Model):
+class Experiencia(models.Model):
 
     curriculo = models.ForeignKey(Curriculo, on_delete = models.CASCADE)
-    empresa = models.CharField(max_length = 100)
     cargo = models.CharField(max_length = 100)
-    funcoes = models.TextField()
-    destaque = models.TextField()
+    empresa = models.CharField(max_length = 100)
     inicio = models.DateField()
-    termino = models.DateField()
+    termino = models.DateField(blank = True, null = True)
+    presente = models.BooleanField()
 
     def __str__(self):
-        return f'{self.empresa} - {self.cargo} | {self.curriculo}'
+        return f'{self.cargo} - {self.empresa} | {self.curriculo}'
+    
+class Funcao(models.Model):
+
+    experiencia = models.ForeignKey(Experiencia, on_delete = models.CASCADE)
+    funcao = models.CharField(max_length = 100)
+
+    def __str__(self):
+        return f'{self.funcao} | {self.experiencia}'
     
 class Projeto(models.Model):
 
     curriculo = models.ForeignKey(Curriculo, on_delete = models.CASCADE)
     nome = models.CharField(max_length = 100)
-    descricao = models.CharField(max_length = 100)
-    inicio = models.DateField()
-    termino = models.DateField()
+    instituicao = models.CharField(max_length = 100)
+    descricao = models.TextField()
+    periodo = models.DateField()
 
     def __str__(self):
         return f'{self.nome} | {self.curriculo}'

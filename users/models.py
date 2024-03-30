@@ -43,7 +43,9 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(_("last name"), max_length=150)
     username = None
     email = models.EmailField(verbose_name = _('email address'), unique=True)
-
+    celular = models.CharField(max_length = 20, blank = True, null = True)
+    nacionalidade = models.CharField(max_length = 30, blank = True, null = True)
+    genero = models.CharField(max_length = 50, blank = True, null = True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name']
 
